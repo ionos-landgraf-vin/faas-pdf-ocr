@@ -1,8 +1,9 @@
 var DownloadFileFromS3 = async () => {},
   ConvertPDFtoImages = async () => {},
-  ExtractTextFromImagesAndConvertToPDF = require("./src/image-to-pdf").ExtractTextFromImagesAndConvertToPDF,
+  ExtractTextFromImagesAndConvertToPDF =
+    require("./src/image-to-pdf").ExtractTextFromImagesAndConvertToPDF,
   MergePagesToOnePDF = require("./src/pdf-merge").MergePagesToOnePDF,
-  UploadPDFToS3 = async () => {}
+  UploadPDFToS3 = async () => {};
 
 var pipeline = [
   DownloadFileFromS3,
@@ -12,7 +13,7 @@ var pipeline = [
   UploadPDFToS3,
 ];
 
-exports.handler = async function (event, context) {
+exports.lambda_handler = async function (event, context) {
   var job = {
     event: event, // original from request
     context: context, // original from request
