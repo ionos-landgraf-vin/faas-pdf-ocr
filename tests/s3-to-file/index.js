@@ -1,6 +1,5 @@
 #!/usr/bin/env nodejs
 
-const { escape } = require("querystring");
 var s3client = require("../../src/shared-s3-client");
 var DownloadFileFromS3 = require("../../src/s3-to-file").DownloadFileFromS3;
 
