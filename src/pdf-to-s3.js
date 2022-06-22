@@ -1,7 +1,6 @@
 var ssc = require("./shared-s3-client");
 
 
-// 
 exports.UploadPDFToS3 = function(job) {
 
 var params = {
@@ -15,7 +14,7 @@ var params = {
   },
 };
 
-var uploader = client.uploadFile(params);
+var uploader = ssc.client.uploadFile(params);
 uploader.on('error', function(err) {
   console.error("unable to upload:", err.stack);
 });
