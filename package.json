@@ -27,8 +27,6 @@
   },
   "homepage": "https://github.com/ionos-landgraf-vin/faas-pdf-ocr#readme",
   "dependencies": {
-    "fs": "0.0.1-security",
-    "path": "^0.12.7",
     "tesseract.js": "^2.1.5"
   }
 }
