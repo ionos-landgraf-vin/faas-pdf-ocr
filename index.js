@@ -29,7 +29,7 @@ exports.handler = async function (event, context) {
   };
 
   for (fn of pipeline) {
-    fn(job);
+    await fn(job);
   }
 
   console.log(JSON.stringify(job.vars.metadata));
