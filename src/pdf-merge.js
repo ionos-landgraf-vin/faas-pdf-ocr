@@ -1,3 +1,6 @@
+const pdf = require('pdfjs')
+const fs = require('fs')
+
 exports.MergePagesToOnePDF = async (job) => {
     const doc = new pdf.Document({})
     for (path of job.vars.pdfLocations) {
