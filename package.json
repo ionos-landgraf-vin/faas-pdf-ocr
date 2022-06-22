@@ -9,7 +9,9 @@
   "scripts": {
     "start": "nodejs ./index.js",
     "test-img-to-text": "nodejs ./tests/img-to-text",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "get-orf": " node ./src/pdf-to-img/get-orf-layer.js",
+    "get-img": " node ./src/pdf-to-img/get-img-from-pdf.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,14 @@
   },
   "homepage": "https://github.com/ionos-landgraf-vin/faas-pdf-ocr#readme",
   "dependencies": {
+    "@idrsolutions/idrcloudclient": "^4.3.0",
+    "pdf-img-convert": "^1.0.5",
+    "pdf-parse": "^1.1.1",
+    "pdf-poppler": "^0.2.1",
+    "pdf-transform": "^1.0.2",
     "tesseract.js": "^2.1.5"
+  },
+  "devDependencies": {
+    "pdf-to-png-converter": "^2.1.1"
   }
 }
