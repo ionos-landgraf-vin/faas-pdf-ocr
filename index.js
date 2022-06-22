@@ -1,13 +1,13 @@
 var DownloadFileFromS3 = async () => {},
   ConvertPDFtoImages = async () => {},
-  ExtractTextFromImagesAndConvertToPDF = async () => {},
+  ExtractTextFromImagesAndConvertToPDF = require("./src/image-to-pdf").ExtractTextFromImagesAndConvertToPDF,
   MergePagesToOnePDF = require("./src/pdf-merge").MergePagesToOnePDF,
   UploadPDFToS3 = async () => {}
 
 var pipeline = [
   DownloadFileFromS3,
   ConvertPDFtoImages,
-  ExtractTextFromImageAndConvertToPDF,
+  ExtractTextFromImagesAndConvertToPDF,
   MergePagesToOnePDF,
   UploadPDFToS3,
 ];
@@ -23,7 +23,7 @@ exports.handler = async function (event, context) {
       imageLocations: [], // locations of the images on disk
       pdfLocations: [], // locations of the generated pdf files
       finalPDFWithTextLocation: "", // location of the merged pdf with text
-      metadata: {},
+      metadata: { text: "" },
     },
     env: process.env,
   };
