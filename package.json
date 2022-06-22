@@ -7,8 +7,8 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "nodejs ./index.js",
-    "test-img-to-text": "nodejs ./tests/img-to-text",
+    "start": "node ./index.js",
+    "test-img-to-text": "node ./tests/img-to-text",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
