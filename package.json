@@ -16,8 +16,12 @@
 =======
     "start": "node ./index.js",
     "test-img-to-text": "node ./tests/img-to-text",
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1"
 >>>>>>> 3e8e5f24e8d478c0297fdd16b90f6b209d3dc586
+=======
+    "pack": "zip -r faas-pdf-ocr.zip . --exclude .git/\\* node_modules/\\* tests/\\* .nvmrc .gitignore README.md LICENSE"
+>>>>>>> 7183f616767982665ae8bc09d55ef3dd62ab415c
   },
   "repository": {
     "type": "git",
@@ -36,6 +40,7 @@
   "homepage": "https://github.com/ionos-landgraf-vin/faas-pdf-ocr#readme",
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@idrsolutions/idrcloudclient": "^4.3.0",
     "pdf-img-convert": "^1.0.5",
     "pdf-parse": "^1.1.1",
@@ -45,6 +50,10 @@
     "fs": "0.0.1-security",
     "path": "^0.12.7",
 >>>>>>> 3e8e5f24e8d478c0297fdd16b90f6b209d3dc586
+=======
+    "ajv": "^8.11.0",
+    "s3-client": "^4.4.2",
+>>>>>>> 7183f616767982665ae8bc09d55ef3dd62ab415c
     "tesseract.js": "^2.1.5"
   },
   "devDependencies": {
