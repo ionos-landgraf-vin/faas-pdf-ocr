@@ -33,3 +33,10 @@ Done via environnement variables:
     IONOS_S3_REGION="eu-central-2"
     IONOS_S3_ENDPOINT="s3-eu-central-1.ionoscloud.com"
     IONOS_S3_BUCKET="..."
+
+### watcher
+
+Configure the FaaS function with environment variables:
+
+    IONOS_FAAS_ENDPOINT="..."
+    IONOS_FAAS_APIKEY="..."
