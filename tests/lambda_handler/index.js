@@ -1,4 +1,4 @@
-const lambda_handler = require("./../../index.js");
+const { lambda_handler } = require("./../../index.js");
 
 (function () {
   const event = JSON.stringify({
@@ -46,6 +46,6 @@ const lambda_handler = require("./../../index.js");
 
   lambda_handler(event, context).then(
     (...args) => console.log("success: ", args),
-    (...args) => console.err("error: ", args),
+    (...args) => console.error("error: ", args),
   );
 })();

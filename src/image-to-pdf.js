@@ -13,9 +13,11 @@ exports.ExtractTextFromImagesAndConvertToPDF = async (job) => {
     console.log("initialize worker");
     await worker.initialize("eng+deu");
     console.log(`recognize image ${image}`);
-    const {data: { text }} = await worker.recognize(image);
+    const {
+      data: { text },
+    } = await worker.recognize(image);
     console.log(`PDFText:\n${text}`);
-    job.vars.metadata.text+=text;
+    // job.vars.metadata.text+=text;
     const { data } = await worker.getPDF("Tesseract OCR Result");
     const filename = `${image}.pdf`;
     console.log("write file");

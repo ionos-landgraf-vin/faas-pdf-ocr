@@ -27,6 +27,8 @@ exports.DownloadFileFromS3 = async function (job) {
       record.s3.object.eTag + ".pdf",
     );
 
+    console.log(job.vars.localFilename);
+
     // check if the file exists
     await keyExists(job);
 
