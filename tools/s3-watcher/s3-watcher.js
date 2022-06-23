@@ -17,9 +17,11 @@ async function main() {
       const existing = objects[obj.Key];
 
       if (!obj.Key.match(/.pdf$/)) {
+        console.log("ignore", obj.Key);
         continue // ignore all non pdf files
       }
       if (obj.Key.match(/.ocr.pdf$/)) {
+        console.log("ignore", obj.Key);
         continue // ignore all OCRed pdf files
       }
 
@@ -28,7 +30,7 @@ async function main() {
           // same, do nothing
         } else {
           // updated
-          console.log("updated", obj);
+          console.log("updated", obj.Key);
           try {
             await notify(s3client, obj);
           } catch(err) {
@@ -38,7 +40,7 @@ async function main() {
         }
       } else {
         // created
-        console.log("created", obj);
+        console.log("created", obj.Key);
         try {
           await notify(s3client, obj);
         } catch(err) {
