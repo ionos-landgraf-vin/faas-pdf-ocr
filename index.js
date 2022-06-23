@@ -2,7 +2,7 @@ var DownloadFileFromS3 = require("./src/s3-to-file").DownloadFileFromS3,
     ConvertPDFtoImages = async () => {},
     ExtractTextFromImagesAndConvertToPDF = require("./src/image-to-pdf").ExtractTextFromImagesAndConvertToPDF,
     MergePagesToOnePDF = require("./src/pdf-merge").MergePagesToOnePDF,
-    UploadPDFToS3 = async () => {},
+    UploadPDFToS3 = require("./src/pdf-to-s3").UploadPDFToS3,
     s3client = require("./src/shared-s3-client");
 
 var pipeline = [
