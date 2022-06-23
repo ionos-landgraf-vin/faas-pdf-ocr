@@ -1,5 +1,6 @@
 const pdf = require("pdfjs");
 const fs = require("fs");
+const os = require("os");
 
 exports.MergePagesToOnePDF = async (job) => {
   const doc = new pdf.Document({});
@@ -9,7 +10,10 @@ exports.MergePagesToOnePDF = async (job) => {
     doc.addPagesOf(ext);
   }
 
-  job.vars.finalPDFWithTextLocation = job.vars.localFilename + ".out";
+  job.vars.finalPDFWithTextLocation = path.join(
+    os.tmpdir(),
+    job.vars.localFilename + ".out"
+  );
 
   const ws = fs.createWriteStream(job.vars.finalPDFWithTextLocation);
   doc.pipe(ws);

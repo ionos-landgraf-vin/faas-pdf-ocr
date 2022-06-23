@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+const os = require("os");
 const { createWorker } = require("tesseract.js");
 
 exports.ExtractTextFromImagesAndConvertToPDF = async (job) => {
@@ -19,7 +20,10 @@ exports.ExtractTextFromImagesAndConvertToPDF = async (job) => {
     console.log(`PDFText:\n${text}`);
     // job.vars.metadata.text+=text;
     const { data } = await worker.getPDF("Tesseract OCR Result");
-    const filename = `${image}.pdf`;
+    const filename = path.join(
+      os.tmpdir(),
+      `${image}.pdf`
+    );
     console.log("write file");
     fs.writeFileSync(filename, Buffer.from(data));
     job.vars.pdfLocations.push(filename);
