@@ -5,6 +5,7 @@ require('dotenv').config();
 const axios = require('axios');
 
 var objects = {};
+var ignores = {};
 
 async function main() {
   const s3client = await require("../../src/shared-s3-client").CreateS3Client();
@@ -17,11 +18,18 @@ async function main() {
       const existing = objects[obj.Key];
 
       if (!obj.Key.match(/.pdf$/)) {
-        console.log("ignore", obj.Key);
+        if (!ignores[obj.Key]) {
+          console.log("ignore", obj.Key);
+          ignores[obj.Key] = true;
+        }
         continue // ignore all non pdf files
       }
+      
       if (obj.Key.match(/.ocr.pdf$/)) {
-        console.log("ignore", obj.Key);
+        if (!ignores[obj.Key]) {
+          console.log("ignore", obj.Key);
+          ignores[obj.Key] = true;
+        }
         continue // ignore all OCRed pdf files
       }
 
