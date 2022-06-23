@@ -1,12 +1,13 @@
 require('dotenv').config();
 
 var DownloadFileFromS3 = require("./src/s3-to-file").DownloadFileFromS3,
-    ConvertPDFtoImages = async () => {},
+    ConvertPDFtoImages = require("./src/get-img-from-pdf").ConvertPDFtoImages,
     ExtractTextFromImagesAndConvertToPDF = require("./src/image-to-pdf").ExtractTextFromImagesAndConvertToPDF,
     MergePagesToOnePDF = require("./src/pdf-merge").MergePagesToOnePDF,
     UploadPDFToS3 = require("./src/pdf-to-s3").UploadPDFToS3,
     CreateS3Client = require("./src/shared-s3-client").CreateS3Client;
-
+    Cleanup = require("src/cleanup").Cleanup,
+    s3client = require("./src/shared-s3-client");
 
 var pipeline = [
   CreateS3Client,
@@ -15,7 +16,7 @@ var pipeline = [
   ExtractTextFromImagesAndConvertToPDF,
   MergePagesToOnePDF,
   UploadPDFToS3,
-  // TODO: we should cleanup any local files, that we created in the process
+  Cleanup
 ];
 
 exports.lambda_handler = async function (event, context) {
