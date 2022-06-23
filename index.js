@@ -1,11 +1,15 @@
+require('dotenv').config();
+
 var DownloadFileFromS3 = require("./src/s3-to-file").DownloadFileFromS3,
     ConvertPDFtoImages = async () => {},
     ExtractTextFromImagesAndConvertToPDF = require("./src/image-to-pdf").ExtractTextFromImagesAndConvertToPDF,
     MergePagesToOnePDF = require("./src/pdf-merge").MergePagesToOnePDF,
-    UploadPDFToS3 = async () => {},
-    s3client = require("./src/shared-s3-client");
+    UploadPDFToS3 = require("./src/pdf-to-s3").UploadPDFToS3,
+    CreateS3Client = require("./src/shared-s3-client").CreateS3Client;
+
 
 var pipeline = [
+  CreateS3Client,
   DownloadFileFromS3,
   ConvertPDFtoImages,
   ExtractTextFromImagesAndConvertToPDF,

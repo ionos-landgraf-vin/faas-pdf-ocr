@@ -1,27 +1,36 @@
-var s3 = require('s3-client');
+const s3 = require('s3-client');
 
-exports.bucket = process.env.IONOS_S3_BUCKET;
-exports.accessKeyId = process.env.IONOS_S3_KEY_ID;
-exports.secretAccessKey = process.env.IONOS_ACCESS_KEY;
-exports.region = process.env.IONOS_S3_REGION;
-exports.endpoint = process.env.IONOS_S3_ENDPOINT;
+exports.CreateS3Client = async function (job) {
+  job = job || {};
+  job.vars = job.vars || {}; 
+  job.env = job.env || process.env; 
 
-exports.client = s3.createClient({
-  maxAsyncS3: 20,     // this is the default
-  s3RetryCount: 3,    // this is the default
-  s3RetryDelay: 1000, // this is the default
-  multipartUploadThreshold: 20971520, // this is the default (20 MB)
-  multipartUploadSize: 15728640, // this is the default (15 MB)
-  s3Options: {
-    accessKeyId: exports.accessKeyId,
-    secretAccessKey: exports.secretAccessKey,
-    region: exports.region,
-    endpoint: exports.endpoint,
-    sslEnabled: true,
-    maxRedirects: 10,
-    s3ForcePathStyle: true,
-    logger: console,
-  },
-});
+  const client = s3.createClient({
+    maxAsyncS3: 20,     // this is the default
+    s3RetryCount: 3,    // this is the default
+    s3RetryDelay: 1000, // this is the default
+    multipartUploadThreshold: 20971520, // this is the default (20 MB)
+    multipartUploadSize: 15728640, // this is the default (15 MB)
+    s3Options: {
+      accessKeyId: job.env.IONOS_S3_KEY_ID,
+      secretAccessKey: job.env.IONOS_ACCESS_KEY,
+      region: job.env.IONOS_S3_REGION,
+      endpoint: job.env.IONOS_S3_ENDPOINT,
+      sslEnabled: true,
+      maxRedirects: 10,
+      s3ForcePathStyle: true,
+      logger: console,
+    },
+  });
+  job.vars.s3Bucket = job.vars.s3Bucket || job.env.IONOS_S3_BUCKET;
 
-exports.s3 = exports.client.s3;
+
+  job.vars.s3Client = {
+    client: client,
+    s3: client.s3,
+    bucket: job.vars.s3Bucket,
+    region: job.env.IONOS_S3_REGION,
+  };
+
+  return job.vars.s3Client;
+}

@@ -8,7 +8,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
-    "test-img-to-text": "node ./tests/img-to-text",
+    "test-img-to-text": "node ./tests/img-to-text/index.js",
+    "test-lambda_handler": "node tests/lambda_handler/index.js",
     "pack": "zip -r faas-pdf-ocr.zip . --exclude .git/\\* node_modules/\\* tests/\\* .nvmrc .gitignore README.md LICENSE"
   },
   "repository": {
@@ -29,6 +30,9 @@
   "dependencies": {
     "ajv": "^8.11.0",
     "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "pdf-img-convert": "^1.0.5",
+    "pdfjs": "^2.4.7",
     "s3-client": "^4.4.2",
     "tesseract.js": "^2.1.5"
   }

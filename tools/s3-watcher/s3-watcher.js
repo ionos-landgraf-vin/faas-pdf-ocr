@@ -1,13 +1,16 @@
 #!/usr/bin/env nodejs
 
-const s3client = require("../../src/shared-s3-client");
+require('dotenv').config();
+
 const axios = require('axios');
 
 var objects = {};
 
 async function main() {
+  const s3client = await require("../../src/shared-s3-client").CreateS3Client();
+
   for (;;) {
-    const data = await listObjects();
+    const data = await listObjects(s3client);
 
     for (obj of  data.Contents) {
       const newObjEtag = obj.ETag.replace(/"/g, "");
@@ -23,13 +26,21 @@ async function main() {
         } else {
           // updated
           console.log("updated", obj);
-          await notify(obj);
+          try {
+            await notify(s3client, obj);
+          } catch(err) {
+            console.log("failed to notify:", err.response.data)
+          }
           objects[obj.Key] = newObjEtag;
         }
       } else {
         // created
         console.log("created", obj);
-        await notify(obj);
+        try {
+          await notify(s3client, obj);
+        } catch(err) {
+          console.log("failed to notify:", err.response.data)
+        }
         objects[obj.Key] = newObjEtag;
       }
     }
@@ -46,14 +57,14 @@ async function sleep(ms) {
   })
 }
 
-async function listObjects() {
+async function listObjects(s3client) {
   return new Promise((resolve, reject) => {
     s3client.s3.listObjects({
       Bucket: s3client.bucket, 
       MaxKeys: 1000,
     }, function(err, data) {
       if (err) {
-        console.err(err);
+        console.error(err);
         reject(err);
       }
 
@@ -62,7 +73,7 @@ async function listObjects() {
   })
 }
 
-async function notify(obj) {
+async function notify(s3client, obj) {
   const event = {
     "Records": [
       {
@@ -109,7 +120,8 @@ async function notify(obj) {
       "Content-Type": "application/json",
     },
   });
-  console.log(resp.data);
+
+  return resp;
 } 
 
 main();
