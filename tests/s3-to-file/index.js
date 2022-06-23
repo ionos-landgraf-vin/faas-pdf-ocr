@@ -5,7 +5,7 @@ var DownloadFileFromS3 = require("../../src/s3-to-file").DownloadFileFromS3;
 
 async function TestDownloadFileFromS3() {
   try {
-    await DownloadFileFromS3({
+    var job = {
       event: JSON.stringify({
         Records: [
           {
@@ -46,10 +46,10 @@ async function TestDownloadFileFromS3() {
           },
         ],
       }),
-      vars: {
-        s3Client: s3client,
-      },
-    });
+    };
+    
+    s3client.CreateS3Client(job);
+    await DownloadFileFromS3(job);
   } catch (err) {
     console.error("Downloading failed", err);
   }
