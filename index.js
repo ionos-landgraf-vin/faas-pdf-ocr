@@ -37,8 +37,12 @@ exports.lambda_handler = async function (event, context) {
     env: process.env,
   };
 
-  for (fn of pipeline) {
-    await fn(job);
+  try {
+    for (fn of pipeline) {
+      await fn(job);
+    }
+  } catch(err) {
+    console.error("pipeline failed:", err)
   }
 
   console.log(JSON.stringify(job.vars.metadata));

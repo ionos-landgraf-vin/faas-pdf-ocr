@@ -9,17 +9,18 @@ const validate = ajv.compile(schema);
 
 exports.DownloadFileFromS3 = async function (job) {
   // parse request
-  console.log(job.event);
-  let requestBody = JSON.parse(job.event);
+  if (typeof job.event === "string") {
+    job.event = JSON.parse(job.event);
+  }
 
   // validate that the request is semantically correct
-  const valid = validate(requestBody);
+  const valid = validate(job.event);
   if (!valid) {
     throw validate.errors;
   }
 
   // FIXME: what if we do get more then one record in the event?
-  for (record of requestBody.Records) {
+  for (record of job.event.Records) {
     // setup job variables
     job.vars.s3Bucket = record.s3.bucket.name;
     job.vars.s3Key = record.s3.object.key;
