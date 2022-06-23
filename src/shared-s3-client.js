@@ -1,11 +1,11 @@
-var s3 = require('s3-client');
+const s3 = require('s3-client');
 
 exports.CreateS3Client = async function (job) {
   job = job || {};
   job.vars = job.vars || {}; 
   job.env = job.env || process.env; 
 
-  var client = s3.createClient({
+  const client = s3.createClient({
     maxAsyncS3: 20,     // this is the default
     s3RetryCount: 3,    // this is the default
     s3RetryDelay: 1000, // this is the default

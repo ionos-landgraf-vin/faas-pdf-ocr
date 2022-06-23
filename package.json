@@ -29,6 +29,7 @@
   "homepage": "https://github.com/ionos-landgraf-vin/faas-pdf-ocr#readme",
   "dependencies": {
     "ajv": "^8.11.0",
+    "dotenv": "^16.0.1",
     "pdf-img-convert": "^1.0.5",
     "pdfjs": "^2.4.7",
     "s3-client": "^4.4.2",
