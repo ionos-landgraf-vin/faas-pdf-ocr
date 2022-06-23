@@ -1,9 +1,11 @@
-const ssc = require("./shared-s3-client"),
-      Ajv = require("ajv"),
-      schema = require("./s3-event-schema").schema;
+const path = require("path");
+const Ajv = require("ajv");
+const os = require("os");
+const fs = require('fs');
+const schema = require("./s3-event-schema").schema;
 
-const ajv = new Ajv(),
-      validate = ajv.compile(schema);
+const ajv = new Ajv();
+const validate = ajv.compile(schema);
 
 exports.DownloadFileFromS3 = async function(job) {
   // parse request
@@ -17,36 +19,57 @@ exports.DownloadFileFromS3 = async function(job) {
 
   // FIXME: what if we do get more then one record in the event?
   for (record of requestBody.Records) {
-    if (record.s3.bucket.name !== ssc.bucket) {
-      throw "invalid bucket";
-    }
+    // setup job variables
+    job.vars.s3Bucket = record.s3.bucket.name;
+    job.vars.s3Key = record.s3.object.key;
+    job.vars.localFilename = path.join(os.tmpdir(), record.s3.object.eTag + ".pdf");
 
-    ssc.s3.headObject({
-      Bucket: ssc.bucket,
-      Key: record.s3.object.key,
+    // check if the file exists
+    await keyExists(job);
+
+    // download the file to localFilename
+    await downloadFile(job)
+  }
+}
+
+async function keyExists(job) {
+  return new Promise((resolve, reject) => {
+    job.vars.s3Client.s3.headObject({
+      Bucket: job.vars.s3Bucket,
+      Key: job.vars.s3Key,
     }, function(err, data) {
       if (err) {
-        throw err; // file doesn't exist
+        return reject(err);
       }
       
-      // file does exist
-      var downloader = ssc.client.downloadFile({
-        // FIXME: do we have to use a random name? Can there be clashes?
-        localFile: "/tmp/incoming.txt",
-        s3Params: {
-          Bucket: ssc.bucket,
-          Key: record.s3.object.key,
-        },
-      });
-      downloader.on('error', function(err) {
-        console.error("unable to download:", err);
-      });
-      // downloader.on('progress', function() {
-      //   console.log("progress", downloacatder.progressAmount, downloader.progressTotal);
-      // });
-      downloader.on('end', function() {
-        console.log("done downloading");
+      resolve();
+    });
+  })
+}
+
+async function downloadFile(job) {
+  console.log("Download ing", "s3://"+job.vars.s3Bucket+"/"+job.vars.s3Key, "to", job.vars.localFilename);
+  return new Promise((resolve, reject) => {
+    job.vars.s3Client.s3.getObject({
+      Bucket: job.vars.s3Bucket,
+      Key: job.vars.s3Key,
+    }, function(err, data) {
+      if (err) {
+        console.log("unable to download:", err);
+        reject(err);
+        return
+      }
+
+      console.log("done downloading");
+      fs.writeFile(job.vars.localFilename, data.Body, err => {
+        if (err) {
+          reject(err);
+          return
+        }
+
+        // file written successfully
+        resolve();
       });
     });
-  }
+  })
 }

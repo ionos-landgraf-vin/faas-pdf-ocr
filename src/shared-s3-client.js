@@ -11,7 +11,10 @@ exports.client = s3.createClient({
     secretAccessKey: process.env.IONOS_ACCESS_KEY,
     region: process.env.IONOS_S3_REGION,
     endpoint: process.env.IONOS_S3_ENDPOINT,
-    sslEnabled: true
+    sslEnabled: true,
+    maxRedirects: 10,
+    s3ForcePathStyle: true,
+    logger: console,
   },
 });
 
