@@ -12,6 +12,14 @@
 
 - install dependencies : `npm ci`
 
+## ocr
+
+Language specific training data files (`*.traineddata`) should be located within the root level directory.
+
+It's recommended to save them here (for performance reasons), otherwise they will get downloaded everytime the faas function get's spawned in a new container.
+
+Trainingdata can be downloaded from here : https://github.com/tesseract-ocr/tessdata
+
 ## tests
 
 Create individual test cases in individual directories inside directory `tests`.

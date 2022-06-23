@@ -1,3 +1,12 @@
-#!/usr/bin/env nodejs
+#!/usr/bin/env node
 
-console.log("hello lars test");
+const process = require("process");
+const tesseract = require("tesseract.js");
+
+tesseract
+  .recognize("tests/img-to-text/img-to-text.png", "eng+deu", {
+    logger: (m) => console.log(m),
+  })
+  .then(({ data: { text } }) => {
+    console.log(text);
+  });

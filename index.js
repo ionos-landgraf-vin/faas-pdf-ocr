@@ -1,39 +1,39 @@
-#!/usr/bin/env nodejs
-
 var DownloadFileFromS3 = require("./src/s3-to-file").DownloadFileFromS3,
-    ConvertPDFtoImages = async function() {},
-    ExtractTextFromImageAndConvertToPDF = async function() {},
-    MergePagesToOnePDF = async function() {},
-    UploadPDFToS3 = async function() {},
+    ConvertPDFtoImages = async () => {},
+    ExtractTextFromImagesAndConvertToPDF = require("./src/image-to-pdf").ExtractTextFromImagesAndConvertToPDF,
+    MergePagesToOnePDF = require("./src/pdf-merge").MergePagesToOnePDF,
+    UploadPDFToS3 = async () => {},
     s3client = require("./src/shared-s3-client");
 
 var pipeline = [
-    DownloadFileFromS3,
-    ConvertPDFtoImages,
-    ExtractTextFromImageAndConvertToPDF,
-    MergePagesToOnePDF,
-    UploadPDFToS3,
+  DownloadFileFromS3,
+  ConvertPDFtoImages,
+  ExtractTextFromImagesAndConvertToPDF,
+  MergePagesToOnePDF,
+  UploadPDFToS3,
+  // TODO: we should cleanup any local files, that we created in the process
 ];
 
-exports.handler = async function(event, context) {
-    var job = {
-        event: event, // original from request
-        context: context, // original from request
-        vars: {
-            localFilename: "", // location of the file on disk
-            s3Location: "", // s3 location of the file
-            s3client: s3client, // shared between upload/download
-            imageLocations: [], // locations of the images on disk
-            pdfLocations: [], // locations of the generated pdf files
-            finalPDFWithTextLocation: "", // location of the merged pdf with text
-            metadata: {},
-        },
-        env: process.env,
-    };
+exports.lambda_handler = async function (event, context) {
+  var job = {
+    event: event, // original from request
+    context: context, // original from request
+    vars: {
+      localFilename: "", // location of the file on disk
+      s3Bucket: "", // bucket where the file came from
+      s3Key: "", // s3 key of the file
+      s3Client: s3client, // shared between upload/download
+      imageLocations: [], // locations of the images on disk
+      pdfLocations: [], // locations of the generated pdf files
+      finalPDFWithTextLocation: "", // location of the merged pdf with text
+      metadata: { text: "" },
+    },
+    env: process.env,
+  };
 
-    for(fn of pipeline) {
-        await fn(job);
-    }
+  for (fn of pipeline) {
+    await fn(job);
+  }
 
-    console.log(JSON.stringify(job.vars.metadata));
+  console.log(JSON.stringify(job.vars.metadata));
 };

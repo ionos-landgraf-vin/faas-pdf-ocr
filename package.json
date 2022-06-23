@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node ./index.js",
     "test-img-to-text": "node ./tests/img-to-text",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pack": "zip -r faas-pdf-ocr.zip . --exclude .git/\\* node_modules/\\* tests/\\* .nvmrc .gitignore README.md LICENSE"
   },
   "repository": {
     "type": "git",
