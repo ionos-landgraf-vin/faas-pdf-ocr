@@ -19,6 +19,9 @@ async function main() {
       if (!obj.Key.match(/.pdf$/)) {
         continue // ignore all non pdf files
       }
+      if (obj.Key.match(/.ocr.pdf$/)) {
+        continue // ignore all OCRed pdf files
+      }
 
       if (existing) {
         if (existing == newObjEtag) {
