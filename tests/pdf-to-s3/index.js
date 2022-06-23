@@ -13,6 +13,7 @@ var job = {
             finalPDFWithTextLocation: "./output.pdf", // location of the merged pdf with text
             metadata: {text: 'faas'},
         },
+        
         env: process.env,
     };
 
