@@ -10,7 +10,7 @@
     "start": "node ./index.js",
     "test-img-to-text": "node ./tests/img-to-text/index.js",
     "test-lambda_handler": "node tests/lambda_handler/index.js",
-    "pack": "zip -r faas-pdf-ocr.zip . --exclude .git/\\* node_modules/\\* tests/\\* .nvmrc .gitignore README.md LICENSE"
+    "pack": "zip -r faas-pdf-ocr.zip . --exclude .git/\\* node_modules/\\* output\\*.\\* tests/\\* .nvmrc .gitignore README.md LICENSE"
   },
   "repository": {
     "type": "git",

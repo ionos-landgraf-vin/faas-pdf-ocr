@@ -9,9 +9,9 @@ exports.ExtractTextFromImagesAndConvertToPDF = async (job) => {
     console.log("load worker");
     await worker.load();
     console.log("load language");
-    await worker.loadLanguage("eng+deu");
+    await worker.loadLanguage("deu+eng");
     console.log("initialize worker");
-    await worker.initialize("eng+deu");
+    await worker.initialize("deu+eng");
     console.log(`recognize image ${image}`);
     const {
       data: { text },

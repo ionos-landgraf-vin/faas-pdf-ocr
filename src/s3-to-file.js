@@ -9,6 +9,7 @@ const validate = ajv.compile(schema);
 
 exports.DownloadFileFromS3 = async function (job) {
   // parse request
+  console.log(job.event);
   let requestBody = JSON.parse(job.event);
 
   // validate that the request is semantically correct

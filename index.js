@@ -17,7 +17,7 @@ var pipeline = [
   ExtractTextFromImagesAndConvertToPDF,
   MergePagesToOnePDF,
   UploadPDFToS3,
-  Cleanup,
+  // Cleanup,
 ];
 
 exports.lambda_handler = async function (event, context) {
