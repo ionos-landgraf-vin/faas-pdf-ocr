@@ -1,29 +1,21 @@
-var ssc = require("./shared-s3-client");
+const fs = require('fs');
 
+exports.UploadPDFToS3 = async function(job) {
+  return await new Promise((resolve, reject) => {
+    const localFile = fs.readFileSync(job.vars.finalPDFWithTextLocation);
+    job.vars.s3client.s3.putObject({
+      Body: localFile, 
+      Bucket: job.vars.s3Bucket,
+      Key: job.vars.s3Key,
+      Metadata: job.vars.metadata,
+    }, function(err, data) {
+      if (err) {
+        console.log("unable to upload:", err);
+        return reject(err);
+      }
 
-exports.UploadPDFToS3 = function(job) {
-
-var params = {
-  localFile: job.vars.finalPDFWithTextLocation,
- 
-  s3Params: {
-    Bucket: ssc.bucket,
-    Key: 'API Key.txt',
-    // other options supported by putObject, except Body and ContentLength.
-    // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
-  },
-};
-
-var uploader = ssc.client.uploadFile(params);
-uploader.on('error', function(err) {
-  console.error("unable to upload:", err.stack);
-});
-uploader.on('progress', function() {
-  console.log("progress", uploader.progressMd5Amount,
-            uploader.progressAmount, uploader.progressTotal);
-});
-uploader.on('end', function() {
-  console.log("done uploading");
-});
+      console.log("done uploading");
+      resolve (data);
+    });
+  });
 }
-
