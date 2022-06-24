@@ -1,5 +1,7 @@
 # faas-pdf-ocr
 
+![./doc/FaaSHackathon-actual.drawio.png](./doc/FaaSHackathon-actual.drawio.png)
+
 # development
 
 ## installation
